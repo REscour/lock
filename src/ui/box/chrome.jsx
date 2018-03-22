@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { CSSTransitionGroup } from 'react-transition-group';
 import MultisizeSlide from './multisize_slide';
 import GlobalMessage from './global_message';
 import * as l from '../../core/index';
@@ -277,15 +277,18 @@ export default class Chrome extends React.Component {
           backgroundColor={primaryColor}
           logoUrl={logo}
         />
-        <TransitionGroup>
-          <CSSTransition classNames="global-message" timeout={MESSAGE_ANIMATION_DURATION}>
-            <div>
-              {globalSuccess}
-              {globalError}
-              {globalInfo}
-            </div>
-          </CSSTransition>
-        </TransitionGroup>
+        <CSSTransitionGroup
+          transitionName={classNames}
+          transitionEnterTimeout={AUXILIARY_ANIMATION_DURATION}
+          transitionLeaveTimeout={AUXILIARY_ANIMATION_DURATION}
+          className="global-message"
+        >
+          <div>
+            {globalSuccess}
+            {globalError}
+            {globalInfo}
+          </div>
+        </CSSTransitionGroup>
         <div style={{ position: 'relative' }} ref="screen">
           <MultisizeSlide
             delay={550}
@@ -311,15 +314,15 @@ export default class Chrome extends React.Component {
         </div>
         {submitButton}
         {auxiliaryPane && (
-          <TransitionGroup>
-            <CSSTransition
-              ref="auxiliary"
-              classNames="slide"
-              timeout={AUXILIARY_ANIMATION_DURATION}
-            >
-              {auxiliaryPane}
-            </CSSTransition>
-          </TransitionGroup>
+          <CSSTransitionGroup
+            ref="auxiliary"
+            className="slide"
+            transitionEnterTimeout={AUXILIARY_ANIMATION_DURATION}
+            transitionLeaveTimeout={AUXILIARY_ANIMATION_DURATION}
+            transitionName={classNames}
+          >
+            {auxiliaryPane}
+          </CSSTransitionGroup>
         )}
       </div>
     );
